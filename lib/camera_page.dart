@@ -41,7 +41,7 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Take Picture')),
+      // appBar: AppBar(title: Text('Take Picture')),
       backgroundColor: Colors.black12,
       body: FutureBuilder<void>(
         future: _initializeCamera(),
@@ -53,10 +53,37 @@ class _CameraPageState extends State<CameraPage> {
                         children: [
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.width / _controller.value.aspectRatio,
+                            height: MediaQuery.of(context).size.width /
+                                _controller.value.aspectRatio,
                             child: CameraPreview(_controller),
+                          ),
+                          Container(
+                            width: 64,
+                            height: 64,
+                            margin: EdgeInsets.only(top: 32),
+                            child: RaisedButton(
+                              shape: CircleBorder(),
+                              color: Colors.blue,
+                              onPressed: () async {
+                                if (!_controller.value.isTakingPicture) {
+                                  File result = await _takePicture();
+                                  Navigator.pop(context, result);
+                                }
+                              },
+                            ),
                           )
                         ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.width /
+                            _controller.value.aspectRatio,
+                        // color: Colors.black38,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 100,
+                          color: Colors.red,
+                        ),
                       )
                     ],
                   )
