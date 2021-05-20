@@ -41,8 +41,13 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text('Take Picture')),
-      backgroundColor: Colors.black12,
+      appBar: AppBar(
+        title: Text('Take Picture'),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       body: FutureBuilder<void>(
         future: _initializeCamera(),
         builder: (_, snapshot) =>
@@ -53,13 +58,12 @@ class _CameraPageState extends State<CameraPage> {
                         children: [
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.width /
-                                _controller.value.aspectRatio,
+                            height: MediaQuery.of(context).size.height * 0.8,
                             child: CameraPreview(_controller),
                           ),
                           Container(
-                            width: 64,
-                            height: 64,
+                            width: 56,
+                            height: 56,
                             margin: EdgeInsets.only(top: 32),
                             child: RaisedButton(
                               shape: CircleBorder(),
@@ -76,15 +80,53 @@ class _CameraPageState extends State<CameraPage> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.width /
-                            _controller.value.aspectRatio,
-                        // color: Colors.black38,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 100,
-                          color: Colors.red,
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.6), BlendMode.srcOut),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    backgroundBlendMode: BlendMode
+                                        .dstOut), // This one will handle background + difference out
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width -
+                                      (MediaQuery.of(context).size.width / 10),
+                                  height: MediaQuery.of(context).size.width -
+                                      (MediaQuery.of(context).size.width / 2.8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    // border: Border.all(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.78,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            'Posisikan KTP di dalam bingkai,\n pastikan informasi di foto terlihat jelas',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                height: 1.4,
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ),
                     ],
                   )
                 : Center(

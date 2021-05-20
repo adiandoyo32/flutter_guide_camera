@@ -36,22 +36,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Camera'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: (imageFile != null) ? Image.file(imageFile) : SizedBox(),
-            ),
-            RaisedButton(
-              child: Text('Take Picture'),
-              onPressed: () async {
-                imageFile = await Navigator.push<File>(
-                    context, MaterialPageRoute(builder: (_) => CameraPage()));
-                setState(() {});
-              },
-            )
-          ],
+      body: SingleChildScrollView(
+              child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: (imageFile != null) ? Image.file(imageFile) : SizedBox(),
+              ),
+              RaisedButton(
+                child: Text('Take Picture'),
+                onPressed: () async {
+                  imageFile = await Navigator.push<File>(
+                      context, MaterialPageRoute(builder: (_) => CameraPage()));
+                  setState(() {});
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
